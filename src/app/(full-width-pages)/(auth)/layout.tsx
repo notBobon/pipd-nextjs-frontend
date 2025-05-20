@@ -20,20 +20,19 @@ export default function AuthLayout({
               {/* <!-- ===== Common Grid Shape Start ===== --> */}
               <GridShape />
               <div className="flex flex-col items-center mt-16">
-                <Link href="/" className="block mb-8">
                   <Image
                     width={231}
                     height={48}
+                    className="block mb-4"
                     src="./images/logo/signin-logo.svg"
                     alt="Logo"
                   />
-                </Link>
                 <p className="text-center dark:text-white/60 max-w-md">
                   Home Credit Indonesia's digital platform for employee learning, information, and knowledge access
                 </p>
                 <div className="">
                   <Image
-                    width={800}
+                    width={700}
                     height={280}
                     src="./images/logo/illustration-hc.svg"
                     alt="Logo"
