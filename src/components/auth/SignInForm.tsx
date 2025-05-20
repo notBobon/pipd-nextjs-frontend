@@ -20,9 +20,9 @@ export default function SignInForm() {
     setError("");
 
     if (username === "userlearner" && password === "prototypetest21") {
-      router.push("/learner");
+      router.push("/"); // Ganti ke /learner
     } else if (username === "userteacher" && password === "prototypetest03") {
-      router.push("/teacher");
+      router.push("/"); // Ganti ke /teacher
     } else {
       setError("User credentials not valid!");
     }
@@ -40,7 +40,7 @@ export default function SignInForm() {
           {/* Error */}
           {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form autoComplete="off" onSubmit={handleSubmit} className="space-y-6">
           {/* Username with persistent floating label */}
           <div
             className="
