@@ -27,7 +27,7 @@ export default function AuthLayout({
                     alt="Logo"
                   />
                 <p className="text-center dark:text-white/60 max-w-md">
-                  Home Credit Indonesia's digital platform for employee learning, information, and knowledge access
+                  Home Credit Indonesia&apos;s digital platform for employee learning, information, and knowledge access
                 </p>
                 <div className="">
                   <Image
