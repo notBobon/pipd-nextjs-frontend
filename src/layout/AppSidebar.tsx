@@ -1,21 +1,19 @@
 "use client";
 import React, { useEffect, useRef, useState,useCallback } from "react";
 import Link from "next/link";
+import "@/lib/fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHouse, faHeadset, faPuzzlePiece, faGear, faUsers, faBookOpen, faGraduationCap } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useSidebar } from "../context/SidebarContext";
 import {
   BoxCubeIcon,
-  CalenderIcon,
   ChevronDownIcon,
-  GridIcon,
   HorizontaLDots,
-  ListIcon,
   PageIcon,
   PieChartIcon,
   PlugInIcon,
-  TableIcon,
-  UserCircleIcon,
 } from "../icons/index";
 import SidebarWidget from "./SidebarWidget";
 
@@ -28,30 +26,55 @@ type NavItem = {
 
 const navItems: NavItem[] = [
   {
-    icon: <GridIcon />,
+    icon: <FontAwesomeIcon icon={faHouse} size="lg"/>,
     name: "Dashboard",
-    subItems: [{ name: "Ecommerce", path: "/", pro: false }],
+    path: "/"
   },
   {
-    icon: <CalenderIcon />,
-    name: "Calendar",
-    path: "/calendar",
+    icon: <FontAwesomeIcon icon={faGraduationCap} size="lg" />,
+    name: "Learning",
+    subItems: [
+      { name: "My Learning", path: "/mylearning", pro: false },
+      { name: "Training Calendar", path: "/calendar", pro: false },
+      { name: "External Certifications", path: "/calendar", pro: false },
+      { name: "CPD Points", path: "/calendar", pro: false },
+      { name: "Transcript", path: "/calendar", pro: false },
+      { name: "Training Requests", path: "/calendar", pro: false },
+      { name: "My Queries", path: "/calendar", pro: false },
+    ],
   },
   {
-    icon: <UserCircleIcon />,
-    name: "User Profile",
-    path: "/profile",
+    icon: <FontAwesomeIcon icon={faPuzzlePiece} size="lg" />,
+    name: "User Profile - Skills",
+    subItems: [
+      { name: "Competencies", path: "/profile", pro: false },
+      { name: "Compliance", path: "/profile", pro: false },
+    ],
   },
+  {
+    name: "Forms - Knowledge",
+    icon: <FontAwesomeIcon icon={faBookOpen} size="lg" />,
+    subItems: [
+      { name: "Announcements", path: "/form-elements", pro: false },
+      { name: "Pools", path: "/form-elements", pro: false },
+      { name: "Documents", path: "/form-elements", pro: false },
 
-  {
-    name: "Forms",
-    icon: <ListIcon />,
-    subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
+    ],
   },
   {
-    name: "Tables",
-    icon: <TableIcon />,
-    subItems: [{ name: "Basic Tables", path: "/basic-tables", pro: false }],
+    name: "Tables - Community",
+    icon: <FontAwesomeIcon icon={faUsers} size="lg" />,
+    subItems: [
+      { name: "Communities", path: "/basic-tables", pro: false },
+      { name: "Discussion Board", path: "/basic-tables", pro: false },
+      { name: "Requests", path: "/basic-tables", pro: false },
+      { name: "Friends", path: "/basic-tables", pro: false },
+      { name: "Followers", path: "/basic-tables", pro: false },
+      { name: "Photos", path: "/basic-tables", pro: false },
+      { name: "Media", path: "/basic-tables", pro: false },
+      { name: "Messages", path: "/basic-tables", pro: false },
+      { name: "Updates", path: "/basic-tables", pro: false },
+    ],
   },
   {
     name: "Pages",
@@ -64,6 +87,17 @@ const navItems: NavItem[] = [
 ];
 
 const othersItems: NavItem[] = [
+  {
+    icon: <FontAwesomeIcon icon={faGear} size="lg" />,
+    name: "Settings",
+    path: "/settings",
+
+  },
+  {
+    icon: <FontAwesomeIcon icon={faHeadset} size="lg" />,
+    name: "Help Center",
+    path: "/helpcenter",
+  },
   {
     icon: <PieChartIcon />,
     name: "Charts",
@@ -135,7 +169,7 @@ const AppSidebar: React.FC = () => {
                   className={`ml-auto w-5 h-5 transition-transform duration-200  ${
                     openSubmenu?.type === menuType &&
                     openSubmenu?.index === index
-                      ? "rotate-180 text-brand-500"
+                      ? "rotate-180 text-red-600"
                       : ""
                   }`}
                 />
@@ -147,6 +181,10 @@ const AppSidebar: React.FC = () => {
                 href={nav.path}
                 className={`menu-item group ${
                   isActive(nav.path) ? "menu-item-active" : "menu-item-inactive"
+                } ${
+                  !isExpanded && !isHovered && !isMobileOpen 
+                    ? "lg:justify-center" 
+                    : "lg:justify-start"
                 }`}
               >
                 <span
@@ -313,14 +351,14 @@ const AppSidebar: React.FC = () => {
             <>
               <Image
                 className="dark:hidden"
-                src="/images/logo/logo.svg"
+                src="/images/logo/app-logo.svg"
                 alt="Logo"
                 width={150}
                 height={40}
               />
               <Image
                 className="hidden dark:block"
-                src="/images/logo/logo-dark.svg"
+                src="/images/logo/white-logo.svg"
                 alt="Logo"
                 width={150}
                 height={40}
@@ -328,7 +366,7 @@ const AppSidebar: React.FC = () => {
             </>
           ) : (
             <Image
-              src="/images/logo/logo-icon.svg"
+              src="/images/logo/red-logo.svg"
               alt="Logo"
               width={32}
               height={32}

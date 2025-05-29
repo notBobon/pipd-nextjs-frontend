@@ -38,6 +38,13 @@
   --color-white: #ffffff;
   --color-black: #101828;
 
+  --color-brand-red-1: #DA1A32;
+  --color-brand-red-2: #DE1E34;
+  --color-brand-red-3: #CF1D32;
+  --color-brand-yellow: #F7C119;
+
+  --color-brand-white: #F7F7F7;
+
   --color-brand-25: #f2f7ff;
   --color-brand-50: #ecf3ff;
   --color-brand-100: #dde9ff;
@@ -197,7 +204,7 @@
 }
 
 @utility menu-item-active {
-  @apply bg-brand-50 text-brand-500 dark:bg-brand-500/[0.12] dark:text-brand-400;
+  @apply bg-red-50 text-red-600 dark:bg-brand-500/[0.12] dark:text-brand-400;
 }
 
 @utility menu-item-inactive {
@@ -209,7 +216,7 @@
 }
 
 @utility menu-item-icon-active {
-  @apply text-brand-500 dark:text-brand-400;
+  @apply text-red-600 dark:text-brand-400;
 }
 
 @utility menu-item-icon-inactive {
@@ -221,7 +228,7 @@
 }
 
 @utility menu-item-arrow-active {
-  @apply rotate-180 text-brand-500 dark:text-brand-400;
+  @apply rotate-180 text-red-600 dark:text-brand-400;
 }
 
 @utility menu-item-arrow-inactive {
@@ -233,7 +240,7 @@
 }
 
 @utility menu-dropdown-item-active {
-  @apply bg-brand-50 text-brand-500 dark:bg-brand-500/[0.12] dark:text-brand-400;
+  @apply bg-red-50 text-red-600 dark:bg-brand-500/[0.12] dark:text-brand-400;
 }
 
 @utility menu-dropdown-item-inactive {
@@ -241,7 +248,7 @@
 }
 
 @utility menu-dropdown-badge {
-  @apply block rounded-full px-2.5 py-0.5 text-xs font-medium uppercase text-brand-500 dark:text-brand-400;
+  @apply block rounded-full px-2.5 py-0.5 text-xs font-medium uppercase text-red-600 dark:text-brand-400;
 }
 
 @utility menu-dropdown-badge-active {
@@ -737,4 +744,63 @@ span.flatpickr-weekday,
     0 1px 2px 0 rgba(16, 24, 40, 0.06);
   opacity: 0.8;
   cursor: grabbing; /* Changes the cursor to indicate dragging */
+}
+
+/* React Calendar Overrides */
+.react-calendar {
+  width: 100%;
+  background: transparent;
+  border: none;
+  @apply font-medium
+}
+.react-calendar__navigation button {
+  
+  min-width: 44px;
+  background: none;
+  font-size: 16px;
+  @apply text-red-600 p-2
+}
+.react-calendar__navigation button:enabled:hover,
+.react-calendar__navigation button:enabled:focus {
+  background-color: #f8f8fa;
+}
+.react-calendar__navigation button[disabled] {
+  background-color: #f0f0f0;
+}
+abbr[title] {
+  text-decoration: none;
+}
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+  background: #f8f8fa;
+  border-radius: 6px;
+  @apply text-red-600
+}
+.react-calendar__tile--now {
+  
+  border-radius: 6px;
+  font-weight: bold;
+  @apply text-white bg-red-600
+}
+.react-calendar__tile--now:enabled:hover,
+.react-calendar__tile--now:enabled:focus {
+  
+  border-radius: 6px;
+  font-weight: bold;
+  @apply text-red-600 bg-gray-100
+}
+.react-calendar__tile--hasActive:enabled:hover,
+.react-calendar__tile--hasActive:enabled:focus {
+  @apply bg-red-100
+}
+.react-calendar__tile--active {
+  border-radius: 6px;
+  font-weight: bold;
+  color: white;
+  @apply bg-red-600 text-white
+}
+.react-calendar__tile--active:enabled:hover,
+.react-calendar__tile--active:enabled:focus {
+  color: white;
+  @apply bg-red-600
 }
