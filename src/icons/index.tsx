@@ -51,6 +51,13 @@ import HorizontaLDots from "./horizontal-dots.svg";
 import ChatIcon from "./chat.svg";
 import MoreDotIcon from "./more-dot.svg";
 import BellIcon from "./bell.svg";
+import HomeIcon from "./house-solid.svg"
+import GraduationCapIcon from "./graduation-cap-solid.svg"
+import PuzzleIcon from "./puzzle-piece-solid.svg"
+import BookOpenIcon from "./book-open-solid.svg"
+import UsersIcon from "./users-solid.svg"
+import GearIcon from "./gear-solid.svg"
+import HeadsetIcon from "./headset-solid.svg"
 
 export {
   DownloadIcon,
@@ -106,4 +113,11 @@ export {
   HorizontaLDots,
   ChevronUpIcon,
   ChatIcon,
+  HomeIcon,
+  GraduationCapIcon,
+  PuzzleIcon,
+  BookOpenIcon,
+  UsersIcon,
+  GearIcon,
+  HeadsetIcon,
 };

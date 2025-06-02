@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { EcommerceMetrics } from "@/components/ecommerce/EcommerceMetrics";
+
 import React from "react";
-import MonthlyTarget from "@/components/ecommerce/MonthlyTarget";
-import MonthlySalesChart from "@/components/ecommerce/MonthlySalesChart";
-import StatisticsChart from "@/components/ecommerce/StatisticsChart";
-import RecentOrders from "@/components/ecommerce/RecentOrders";
-import DemographicCard from "@/components/ecommerce/DemographicCard";
+import AnnouncementCard from '@/components/ecommerce/AnnouncementCard';
+import CalendarCard from "@/components/ecommerce/CalendarCard";
+import { DashboardCharts } from "@/components/ecommerce/DashboardCharts";
+import ComplienceCard from "@/components/ecommerce/ComplienceCard";
+import UpcomingEvents from "@/components/ecommerce/UpcomingEvents";
+import RecentActivites from "@/components/ecommerce/RecentActivites";
 
 export const metadata: Metadata = {
   title:
@@ -13,29 +14,49 @@ export const metadata: Metadata = {
   description: "This is Next.js Home for TailAdmin Dashboard Template",
 };
 
-export default function Ecommerce() {
+export default function LearnerPage() {
   return (
-    <div className="grid grid-cols-12 gap-4 md:gap-6">
-      <div className="col-span-12 space-y-6 xl:col-span-7">
-        <EcommerceMetrics />
-
-        <MonthlySalesChart />
+    <div className="flex flex-col items-left justify-between gap-3 mb-6">
+      <div className="flex-col items-center">
+        <h2
+          className="text-2xl font-semibold text-gray-800 dark:text-white/90 pl-6"
+          x-text="pageName"
+        >
+          Hi, Learner👋
+        </h2>
+        <h2
+          className="text-title-md font-bold text-gray-800 dark:text-white/90 pl-6"
+          x-text="pageName"
+        >
+          Welcome to PIPD!
+        </h2>
       </div>
 
-      <div className="col-span-12 xl:col-span-5">
-        <MonthlyTarget />
-      </div>
+      <div className="grid grid-cols-12 gap-4 md:gap-6">
 
-      <div className="col-span-12">
-        <StatisticsChart />
-      </div>
+        <div className="col-span-12 xl:col-span-7">
+          <AnnouncementCard />
+        </div>
 
-      <div className="col-span-12 xl:col-span-5">
-        <DemographicCard />
-      </div>
+        <div className="col-span-12 xl:flex xl:col-span-5">
+          <CalendarCard />
+        </div>
 
-      <div className="col-span-12 xl:col-span-7">
-        <RecentOrders />
+        <div className="col-span-12 xl:col-span-7">
+          <DashboardCharts />
+        </div>
+
+        <div className="col-span-12 xl:col-span-5">
+          <ComplienceCard />
+        </div>
+
+        <div className="col-span-12 xl:col-span-7">
+          <UpcomingEvents />
+        </div>
+
+        <div className="col-span-12 xl:col-span-5">
+          <RecentActivites />
+        </div>
       </div>
     </div>
   );
