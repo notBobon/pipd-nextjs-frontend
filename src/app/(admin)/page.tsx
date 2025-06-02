@@ -10,8 +10,7 @@ import RecentActivites from "@/components/ecommerce/RecentActivites";
 
 export const metadata: Metadata = {
   title:
-    "Next.js E-commerce Dashboard | TailAdmin - Next.js Dashboard Template",
-  description: "This is Next.js Home for TailAdmin Dashboard Template",
+    "PIPD Dashboard",
 };
 
 export default function LearnerPage() {
