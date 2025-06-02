@@ -52,7 +52,7 @@ export default function AnnouncementCard() {
           </Dropdown>
         </div>
       </div>
-      <div className="space-y-5 py-5">
+      <div className="space-y-7 py-5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
 

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description: "This is Next.js Home for TailAdmin Dashboard Template",
 };
 
-export default function Ecommerce() {
+export default function LearnerPage() {
   return (
     <div className="flex flex-col items-left justify-between gap-3 mb-6">
       <div className="flex-col items-center">

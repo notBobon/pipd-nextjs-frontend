@@ -69,7 +69,7 @@ export default function CurriculumTabs({
                                     {/* left part: icon + text */}
                                     <div className="flex items-center space-x-4">
                                         {/* bullet icon */}
-                                        {completedDocs.includes(i) ? (
+                                        {completedDocs.includes(i) || completedSurveys.includes(i) ? (
                                             <>
                                                 <FontAwesomeIcon
                                                     icon={faCircleCheck}

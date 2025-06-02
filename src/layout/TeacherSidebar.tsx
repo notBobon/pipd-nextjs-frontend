@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState,useCallback } from "react";
 import Link from "next/link";
 import "@/lib/fontawesome";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse, faHeadset, faPuzzlePiece, faGear, faUsers, faBookOpen, faGraduationCap } from "@fortawesome/free-solid-svg-icons";
+import { faHouse, faGear, faUsers, faLayerGroup, faIdCard, faChartBar } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useSidebar } from "../context/SidebarContext";
@@ -23,71 +23,66 @@ const navItems: NavItem[] = [
   {
     icon: <FontAwesomeIcon icon={faHouse} size="lg"/>,
     name: "Dashboard",
-    path: "/"
+    path: "/teacher"
   },
   {
-    icon: <FontAwesomeIcon icon={faGraduationCap} size="lg" />,
-    name: "Learning",
+    icon: <FontAwesomeIcon icon={faLayerGroup} size="lg" />,
+    name: "Contents",
     subItems: [
-      { name: "My Learning", path: "/mylearning", pro: false },
-      { name: "Training Calendar", path: "/calendar", pro: false },
-      { name: "External Certifications", path: "/calendar", pro: false },
-      { name: "CPD Points", path: "/calendar", pro: false },
-      { name: "Transcript", path: "/calendar", pro: false },
-      { name: "Training Requests", path: "/calendar", pro: false },
-      { name: "My Queries", path: "/calendar", pro: false },
+      { name: "E-Learning", path: "/mylearning", pro: false },
+      { name: "Categories", path: "/calendar", pro: false },
+      { name: "ILT / Classroom", path: "/calendar", pro: false },
+      { name: "Assessments", path: "/calendar", pro: false },
+      { name: "Curriculums", path: "/curriculum", pro: false },
+      { name: "Certifications", path: "/calendar", pro: false },
+      { name: "ILT Setup", path: "/calendar", pro: false },
+      { name: "Resources", path: "/calendar", pro: false },
     ],
   },
   {
-    icon: <FontAwesomeIcon icon={faPuzzlePiece} size="lg" />,
-    name: "Skills",
+    icon: <FontAwesomeIcon icon={faIdCard} size="lg" />,
+    name: "Tasks",
     subItems: [
-      { name: "Competencies", path: "/profile", pro: false },
-      { name: "Compliance", path: "/profile", pro: false },
+      { name: "Requests", path: "/profile", pro: false },
+      { name: "Evaluate", path: "/profile", pro: false },
+      { name: "Events Bulk Upload", path: "/profile", pro: false },
+      { name: "Bulk Upload Assignment", path: "/profile", pro: false },
+      { name: "Bulk Upload Assessment Attempt", path: "/profile", pro: false },
+      { name: "Communities", path: "/profile", pro: false },
+      { name: "Support Center", path: "/profile", pro: false },
     ],
   },
   {
-    name: "Knowledge",
-    icon: <FontAwesomeIcon icon={faBookOpen} size="lg" />,
+    name: "Reports",
+    icon: <FontAwesomeIcon icon={faChartBar} size="lg" />,
     subItems: [
-      { name: "Announcements", path: "/form-elements", pro: false },
-      { name: "Pools", path: "/form-elements", pro: false },
-      { name: "Documents", path: "/form-elements", pro: false },
-
+      { name: "Frequent Reports", path: "/form-elements", pro: false },
+      { name: "Progress", path: "/form-elements", pro: false },
+      { name: "Favorite Reports", path: "/form-elements", pro: false },
+      { name: "All Reports", path: "/form-elements", pro: false },
     ],
   },
   {
-    name: "Community",
+    name: "Team",
     icon: <FontAwesomeIcon icon={faUsers} size="lg" />,
     subItems: [
-      { name: "Communities", path: "/basic-tables", pro: false },
-      { name: "Discussion Board", path: "/basic-tables", pro: false },
-      { name: "Requests", path: "/basic-tables", pro: false },
-      { name: "Friends", path: "/basic-tables", pro: false },
-      { name: "Followers", path: "/basic-tables", pro: false },
-      { name: "Photos", path: "/basic-tables", pro: false },
-      { name: "Media", path: "/basic-tables", pro: false },
-      { name: "Messages", path: "/basic-tables", pro: false },
-      { name: "Updates", path: "/basic-tables", pro: false },
+      { name: "Competency Skills", path: "/basic-tables", pro: false },
+      { name: "Compliance Skills", path: "/basic-tables", pro: false },
+      { name: "Users", path: "teacher/users", pro: false },
     ],
+  },
+  {
+    name: "Settings",
+    icon: <FontAwesomeIcon icon={faGear} size="lg" />,
+    path: "/teacher/settings",
   },
 ];
 
 const othersItems: NavItem[] = [
-  {
-    icon: <FontAwesomeIcon icon={faGear} size="lg" />,
-    name: "Settings",
-    path: "/settings",
 
-  },
-  {
-    icon: <FontAwesomeIcon icon={faHeadset} size="lg" />,
-    name: "Help Center",
-    path: "/helpcenter",
-  },
 ];
 
-const AppSidebar: React.FC = () => {
+const TeacherSidebar: React.FC = () => {
   const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
   const pathname = usePathname();
 
@@ -353,22 +348,7 @@ const AppSidebar: React.FC = () => {
               {renderMenuItems(navItems, "main")}
             </div>
 
-            <div className="">
-              <h2
-                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
-                  !isExpanded && !isHovered
-                    ? "lg:justify-center"
-                    : "justify-start"
-                }`}
-              >
-                {isExpanded || isHovered || isMobileOpen ? (
-                  "Others"
-                ) : (
-                  <HorizontaLDots />
-                )}
-              </h2>
-              {renderMenuItems(othersItems, "others")}
-            </div>
+            
           </div>
         </nav>
       </div>
@@ -376,4 +356,4 @@ const AppSidebar: React.FC = () => {
   );
 };
 
-export default AppSidebar;
+export default TeacherSidebar;

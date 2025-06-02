@@ -33,7 +33,6 @@ export default function AdminLayout({
   if (pageTitle === "Mylearning") { pageTitle = "My Learning" };
   if (pageTitle === "Searchresults") { pageTitle = "Learning" };
 
-
   return (
     <div className="min-h-screen xl:flex">
       {/* Sidebar and Backdrop */}
@@ -48,7 +47,7 @@ export default function AdminLayout({
         {/* Page title bar */}
 
         {pageTitle !== "My Learning" && pageTitle !== "Learning" && (
-          <div className="h-20 px-16 border-b bg-red-700 dark:bg-gray-800 dark:border-gray-700 flex items-center">
+          <div className="h-20 px-9 border-b bg-red-700 dark:bg-gray-800 dark:border-gray-700 flex items-center">
             <h1 className="text-title-sm font-medium text-white dark:text-white">
               {pageTitle}
             </h1>
@@ -57,7 +56,7 @@ export default function AdminLayout({
 
         {pageTitle === "My Learning" && (
           <div>
-            <div className="h-25 px-16 border-b bg-red-700 text-white dark:bg-gray-800 dark:border-gray-700 flex flex-col justify-center gap-1">
+            <div className="h-25 px-9 border-b bg-red-700 text-white dark:bg-gray-800 dark:border-gray-700 flex flex-col justify-center gap-1">
               <h1 className="text-title-sm font-medium dark:text-white">
                 {pageTitle}
               </h1>
@@ -70,7 +69,7 @@ export default function AdminLayout({
 
         {pageTitle === "Learning" && (
           <div>
-            <div className="h-25 px-16 border-b bg-red-700 text-white dark:bg-gray-800 dark:border-gray-700 flex flex-col justify-center gap-1">
+            <div className="h-25 px-9 border-b bg-red-700 text-white dark:bg-gray-800 dark:border-gray-700 flex flex-col justify-center gap-1">
               <h1 className="text-title-sm font-medium dark:text-white">
                 {pageTitle}
               </h1>

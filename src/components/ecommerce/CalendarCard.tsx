@@ -11,7 +11,7 @@ export default function CalendarCard() {
   const [date, setDate] = useState<Date>(new Date());
 
   return (
-    <div className="rounded-2xl border flex-col border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 w-full">
+    <div className="rounded-2xl border flex-col border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-gray-900 w-full">
       {/* Card Header */}
       <div className="inline-flex gap-2 items-baseline">
         <FontAwesomeIcon icon={faCalendarDays} className="text-red-700" />

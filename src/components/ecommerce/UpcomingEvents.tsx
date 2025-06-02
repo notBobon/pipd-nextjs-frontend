@@ -57,7 +57,7 @@ export default function UpcomingEvents() {
       </div>
 
       {/* Event List */}
-      <div className="space-y-5 py-5 px-2">
+      <div className="space-y-7 py-5 px-2">
         
           <div className="relative">
             {/* side bar accent */}

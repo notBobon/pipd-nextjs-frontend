@@ -1,27 +1,22 @@
 import Link from "next/link";
 import React from "react";
 
-interface BreadcrumbProps {
+interface BreadcrumbTeacherProps {
   pageTitle: string;
+  pageSubTitle: string;
 }
 
-const PageBreadcrumb: React.FC<BreadcrumbProps> = ({ pageTitle }) => {
+const PageBreadcrumbTeacher: React.FC<BreadcrumbTeacherProps> = ({ pageTitle, pageSubTitle }) => {
   return (
-    <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
-      <h2
-        className="text-xl font-semibold text-gray-800 dark:text-white/90"
-        x-text="pageName"
-      >
-        {pageTitle}
-      </h2>
+    <div className="flex flex-wrap items-center justify-between gap-3 mb-2">
       <nav>
         <ol className="flex items-center gap-1.5">
           <li>
             <Link
-              className="inline-flex items-center gap-1.5 text-sm text-gray-700 dark:text-gray-400"
+              className="inline-flex items-center gap-1.5 text-sm text-white dark:text-gray-400"
               href="/"
             >
-              Home
+              {pageTitle}
               <svg
                 className="stroke-current"
                 width="17"
@@ -40,8 +35,8 @@ const PageBreadcrumb: React.FC<BreadcrumbProps> = ({ pageTitle }) => {
               </svg>
             </Link>
           </li>
-          <li className="text-sm text-gray-700 dark:text-white/90">
-            {pageTitle}
+          <li className="text-sm text-white dark:text-white/90 underline">
+            {pageSubTitle}
           </li>
         </ol>
       </nav>
@@ -49,4 +44,4 @@ const PageBreadcrumb: React.FC<BreadcrumbProps> = ({ pageTitle }) => {
   );
 };
 
-export default PageBreadcrumb;
+export default PageBreadcrumbTeacher;
