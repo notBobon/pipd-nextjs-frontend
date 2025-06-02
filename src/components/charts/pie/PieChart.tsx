@@ -56,7 +56,7 @@ export default function PieChart({ assessmentsTime, modulesTime }: LearningTimeP
         },
       },
     },
-    onHover: (_, elements: any[]) => {
+    onHover: (_: any, elements: any[]) => {
       document.body.style.cursor = elements.length ? 'pointer' : 'default';
     },
   };
