@@ -4,7 +4,7 @@
 import React, { useState, useRef, DragEvent, ChangeEvent } from "react";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleInfo, faCloudUploadAlt, faUserCircle } from "@fortawesome/free-solid-svg-icons";
+import { faCircleInfo, faCloudUploadAlt } from "@fortawesome/free-solid-svg-icons";
 import Input from "@/components/form/input/InputField";
 import DatePicker from "@/components/form/date-picker";
 
@@ -44,7 +44,6 @@ export default function CreateUserPage() {
   const lmsRoleOptions = ["Learner", "Teacher", "Instructor", "Admin"];
   const lineManagerOptions = ["Alice Johnson", "Bob Smith", "Charlie Lee"];
   const orgUnitOptions = ["HR", "Engineering", "Sales", "Marketing"];
-  const typeOptions = ["Full-Time", "Part-Time", "Contractor", "Visitor"];
 
   // ─── Helper untuk menambah/kurangi tag di multi‐select ────────────────
   const toggleArrayItem = (arr: string[], setArr: (v: string[]) => void, value: string) => {

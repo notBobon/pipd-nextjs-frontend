@@ -16,7 +16,6 @@ import {
   faSortUp,
   faSortDown,
 } from "@fortawesome/free-solid-svg-icons";
-import { mock } from "node:test";
 
 interface UserRow {
   id: string;
@@ -111,7 +110,7 @@ const mockUsers: UserRow[] = [
 
 export default function UsersPage() {
   // ======== State dasar untuk tabel (dummy empty) ========
-  const [data, setData] = useState<UserRow[]>(mockUsers); // Awalnya kosong
+  const [data] = useState<UserRow[]>(mockUsers); // Awalnya kosong
   const [sortColumn, setSortColumn] = useState<string>(""); // kolom apa yg sedang di‐sort
   const [sortAsc, setSortAsc] = useState<boolean>(true);   // ascending/descending
   const [currentPage, setCurrentPage] = useState<number>(1);

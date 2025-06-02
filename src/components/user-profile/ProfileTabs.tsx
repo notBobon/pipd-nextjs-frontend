@@ -5,8 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faChartSimple,
     faBullseye,
-    faClock,
-    faBarsProgress,
     faCircleInfo,
 
 } from "@fortawesome/free-solid-svg-icons";
@@ -19,8 +17,6 @@ import {
 import Input from "../form/input/InputField";
 import Button from "../ui/button/Button";
 import Label from "../form/Label";
-import Image from "next/image";
-import { DropdownItem } from "../ui/dropdown/DropdownItem";
 import Link from "next/link";
 
 export default function ProfileTabs() {
