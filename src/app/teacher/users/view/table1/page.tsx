@@ -5,7 +5,6 @@
 
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretDown, faGear } from '@fortawesome/free-solid-svg-icons';
 import {
   faFilter,
   faChevronUp,
@@ -16,6 +15,8 @@ import {
   faSort,
   faSortUp,
   faSortDown,
+  faGear,
+  faCaretDown,
 } from "@fortawesome/free-solid-svg-icons";
 
 interface UserRow {
@@ -26,10 +27,20 @@ interface UserRow {
   role: string;
   status: string;
 }
+const mockUsers: UserRow[] = [
+  {
+    id: "12310",
+    name: "Fabian Wirawan",
+    email: "fabianwirawan@company.co.id",
+    username: "fabianwira",
+    role: "Learner",
+    status: "Active",
+  },
+];
 
-export default function UsersPage() {
+export default function UsersTable1Page() {
   // ======== State dasar untuk tabel (dummy empty) ========
-  const [data] = useState<UserRow[]>([]); // Awalnya kosong
+  const [data] = useState<UserRow[]>(mockUsers); // Awalnya kosong
   const [sortColumn, setSortColumn] = useState<string>(""); // kolom apa yg sedang di‐sort
   const [sortAsc, setSortAsc] = useState<boolean>(true);   // ascending/descending
   const [currentPage, setCurrentPage] = useState<number>(1);

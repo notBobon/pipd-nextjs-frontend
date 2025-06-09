@@ -8,7 +8,7 @@ import TeacherHeader from "@/layout/TeacherHeader";
 import TeacherSidebar from "@/layout/TeacherSidebar";
 import PageBreadcrumbTeacher from "@/components/common/PageBreadCrumbTeacher";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDownload, faPlus, faPrint, faUpload } from "@fortawesome/free-solid-svg-icons";
+import { faDownload, faEnvelope, faFileExcel, faPlus, faPrint, faUpload } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 
 export default function AdminLayout({
@@ -34,8 +34,12 @@ export default function AdminLayout({
     .replace(/-/g, " ")
     .replace(/\b\w/g, (c) => c.toUpperCase());
   if (pageTitle === "Teacher") { pageTitle = "Dashboard" };
-  if (pageTitle === "Report") { pageTitle = "Curriculum Progress Report" };
+  if (pageTitle === "Frequent Reports") { pageTitle = "Curriculum Progress Report" };
+  if (pageTitle === "Result") { pageTitle = "Curriculum Progress Report" };
   if (pageTitle === "Create") { pageTitle = "Create User" };
+  if (pageTitle === "Bulk") { pageTitle = "Bulk Upload Users" };
+  if (pageTitle === "Table1") { pageTitle = "Users" };
+  if (pageTitle === "Table2") { pageTitle = "Users" };
 
 
   return (
@@ -51,7 +55,7 @@ export default function AdminLayout({
         <TeacherHeader />
         {/* Page title bar */}
 
-        {pageTitle !== "Dashboard" && pageTitle !== "Users" && pageTitle !== "Curriculum Progress Report" && pageTitle !== "Create User" && (
+        {pageTitle !== "Dashboard" && pageTitle !== "Users" && pageTitle !== "Curriculum Progress Report" && pageTitle !== "Create User" && pageTitle !== "Bulk Upload Users" && pageTitle !== "Curriculum" && pageTitle !== "Build Curriculum" && (
           <div className="h-24 px-9 border-b bg-red-700 dark:bg-gray-800 dark:border-gray-700 flex items-center justify-between">
             <div className="flex flex-col">
               <PageBreadcrumbTeacher pageTitle="" pageSubTitle="LMS" />
@@ -79,6 +83,37 @@ export default function AdminLayout({
                 Download
               </p>
             </Link>
+          </div>
+        )}
+
+        {pageTitle === "Curriculum" && (
+          <div className="h-24 px-9 border-b bg-red-700 dark:bg-gray-800 dark:border-gray-700 flex items-center justify-between">
+            <div className="flex flex-col">
+              <PageBreadcrumbTeacher pageTitle="Contents" pageSubTitle="" />
+              <h1 className="text-2xl font-medium text-white dark:text-white">
+                {pageTitle}
+              </h1>
+            </div>
+            <Link href="/teacher/curriculum/build-curriculum" className="inline-flex items-center justify-center gap-1 h-11 w-20 bg-white rounded-xl">
+              <FontAwesomeIcon icon={faPlus} size="sm" className="text-red-600 w-5 h-5" />
+              <p className="text-red-600 text-sm">
+                Add
+              </p>
+            </Link>
+          </div>
+        )}
+
+        {pageTitle === "Build Curriculum" && (
+          <div className="h-24 px-9 border-b bg-red-700 dark:bg-gray-800 dark:border-gray-700 flex items-center justify-between">
+            <div className="flex flex-col">
+              <PageBreadcrumbTeacher pageTitle="Contents" pageSubTitle="Builder" />
+              <h1 className="text-2xl font-medium text-white dark:text-white">
+                {pageTitle}
+              </h1>
+            </div>
+            <p className="text-white">
+              Fields Marked with * are mandatory
+            </p>
           </div>
         )}
 
@@ -133,32 +168,47 @@ export default function AdminLayout({
           </div>
         )}
 
-        {pageTitle === "Curriculum Progress Report" && (
+        {pageTitle === "Bulk Upload Users" && (
           <div className="h-24 px-9 border-b bg-red-700 dark:bg-gray-800 dark:border-gray-700 flex items-center justify-between">
             <div className="flex flex-col">
-              <PageBreadcrumbTeacher pageTitle="" pageSubTitle="LMS" />
+              <PageBreadcrumbTeacher pageTitle="Team" pageSubTitle="Users" />
               <h1 className="text-2xl font-medium text-white dark:text-white">
                 {pageTitle}
               </h1>
             </div>
-            <div className="inline-flex items-baseline gap-1">
-              <FontAwesomeIcon icon={faDownload} size="sm" className="text-white w-5 h-5" />
-              <p className="text-white">
-                Download
-              </p>
-            </div>
+            <p className="text-white">
+              Fields Marked with * are mandatory
+            </p>
           </div>
         )}
 
-        {pageTitle === "Learning" && (
-          <div>
-            <div className="h-25 px-16 border-b bg-red-700 text-white dark:bg-gray-800 dark:border-gray-700 flex flex-col justify-center gap-1">
-              <h1 className="text-title-sm font-medium dark:text-white">
+        {pageTitle === "Curriculum Progress Report" && (
+          <div className="h-24 px-9 border-b bg-red-700 dark:bg-gray-800 dark:border-gray-700 flex items-center justify-between">
+            <div className="flex flex-col">
+              <PageBreadcrumbTeacher pageTitle="Reports" pageSubTitle="All Reports" />
+              <h1 className="text-2xl font-medium text-white dark:text-white">
                 {pageTitle}
               </h1>
-              <p>
-                Search Results
-              </p>
+            </div>
+            <div className="flex flex-row gap-4">
+              <Link href="/teacher/users/bulk" className="inline-flex items-baseline gap-1">
+                <FontAwesomeIcon icon={faEnvelope} size="sm" className="text-white w-5 h-5" />
+                <p className="text-white text-sm">
+                  Send Email
+                </p>
+              </Link>
+              <a href="/files/dummyexcel.xlsx" download="dummyexcel.xlsx" className="inline-flex items-baseline gap-1">
+                <FontAwesomeIcon icon={faFileExcel} size="sm" className="text-white w-5 h-5" />
+                <p className="text-white text-sm">
+                  Export XLSX
+                </p>
+              </a>
+              <Link href="/files/dummycsv.csv" download="dummycsv.csv" className="inline-flex items-baseline gap-1">
+                <FontAwesomeIcon icon={faFileExcel} size="sm" className="text-white w-5 h-5" />
+                <p className="text-white text-sm">
+                  Export CSV
+                </p>
+              </Link>
             </div>
           </div>
         )}

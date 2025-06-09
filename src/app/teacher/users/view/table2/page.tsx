@@ -5,7 +5,6 @@
 
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretDown, faGear } from '@fortawesome/free-solid-svg-icons';
 import {
   faFilter,
   faChevronUp,
@@ -16,6 +15,8 @@ import {
   faSort,
   faSortUp,
   faSortDown,
+  faGear,
+  faCaretDown,
 } from "@fortawesome/free-solid-svg-icons";
 
 interface UserRow {
@@ -26,10 +27,52 @@ interface UserRow {
   role: string;
   status: string;
 }
+const mockUsers: UserRow[] = [
+  {
+    id: "12310",
+    name: "Fabian Wirawan",
+    email: "fabianwirawan@company.co.id",
+    username: "fabianwira",
+    role: "Learner",
+    status: "Active",
+  },
+  {
+    id: "12311",
+    name: "Alan Spencer",
+    email: "alan@company.co.id",
+    username: "alanspencer",
+    role: "Learner",
+    status: "Active",
+  },
+  {
+    id: "12312",
+    name: "Brandon Walker Nielsman",
+    email: "brandon@company.co.id",
+    username: "brandonwalker",
+    role: "Learner",
+    status: "Active",
+  },
+  {
+    id: "12313",
+    name: "Chris Rose",
+    email: "chris@company.co.id",
+    username: "chrisroe",
+    role: "Learner",
+    status: "Active",
+  },
+  {
+    id: "12314",
+    name: "Derrick Pratt Johnson",
+    email: "derrickjohnson@company.co.id",
+    username: "derrpratt",
+    role: "Learner",
+    status: "Active",
+  },
+];
 
-export default function UsersPage() {
+export default function UsersTable1Page() {
   // ======== State dasar untuk tabel (dummy empty) ========
-  const [data] = useState<UserRow[]>([]); // Awalnya kosong
+  const [data] = useState<UserRow[]>(mockUsers); // Awalnya kosong
   const [sortColumn, setSortColumn] = useState<string>(""); // kolom apa yg sedang di‐sort
   const [sortAsc, setSortAsc] = useState<boolean>(true);   // ascending/descending
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -207,7 +250,7 @@ export default function UsersPage() {
       </div>
 
       {/* ====== Tabel dengan header sortable ====== */}
-      <div className="overflow-x-auto border border-gray-200 rounded-lg">
+      <div className="overflow-x-auto border border-gray-200 rounded-lg mb-20">
 
         <table className="min-w-full text-left text-sm">
           <thead className="bg-gray-100">

@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState,useCallback } from "react";
 import Link from "next/link";
 import "@/lib/fontawesome";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse, faGear, faUsers, faLayerGroup, faIdCard, faChartBar } from "@fortawesome/free-solid-svg-icons";
+import { faHouse, faGear, faUsers, faLayerGroup, faIdCard, faChartBar, faShapes } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useSidebar } from "../context/SidebarContext";
@@ -33,7 +33,7 @@ const navItems: NavItem[] = [
       { name: "Categories", path: "/calendar", pro: false },
       { name: "ILT / Classroom", path: "/calendar", pro: false },
       { name: "Assessments", path: "/calendar", pro: false },
-      { name: "Curriculums", path: "/curriculum", pro: false },
+      { name: "Curriculums", path: "/teacher/curriculum", pro: false },
       { name: "Certifications", path: "/calendar", pro: false },
       { name: "ILT Setup", path: "/calendar", pro: false },
       { name: "Resources", path: "/calendar", pro: false },
@@ -56,7 +56,7 @@ const navItems: NavItem[] = [
     name: "Reports",
     icon: <FontAwesomeIcon icon={faChartBar} size="lg" />,
     subItems: [
-      { name: "Frequent Reports", path: "/form-elements", pro: false },
+      { name: "Frequent Reports", path: "/teacher/frequent-reports", pro: false },
       { name: "Progress", path: "/form-elements", pro: false },
       { name: "Favorite Reports", path: "/form-elements", pro: false },
       { name: "All Reports", path: "/form-elements", pro: false },
@@ -68,8 +68,13 @@ const navItems: NavItem[] = [
     subItems: [
       { name: "Competency Skills", path: "/basic-tables", pro: false },
       { name: "Compliance Skills", path: "/basic-tables", pro: false },
-      { name: "Users", path: "teacher/users", pro: false },
+      { name: "Users", path: "/teacher/users", pro: false },
     ],
+  },
+  {
+    name: "Curriculum Builder",
+    icon: <FontAwesomeIcon icon={faShapes} size="lg" />,
+    path: "/teacher/curriculum/build-curriculum",
   },
   {
     name: "Settings",

@@ -1,12 +1,23 @@
 // app/(protected)/users/create/page.tsx
 "use client";
 
-import React, { useState, useRef, DragEvent, ChangeEvent } from "react";
-import Image from "next/image";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleInfo, faCloudUploadAlt } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUpRightFromSquare, faCircleInfo, faXmark } from '@fortawesome/free-solid-svg-icons';
 import Input from "@/components/form/input/InputField";
 import DatePicker from "@/components/form/date-picker";
+import Label from "@/components/form/Label";
+import Select from "@/components/form/Select";
+import { ChevronDownIcon } from "@/icons";
+import OrganizationalUnitModal from "@/components/teacher/users/OrganizationalUnitModal";
+import Link from "next/link";
+import DropzoneComponent from "@/components/form/form-elements/DropZoneCustom";
+
+// Declare your “Unit” interface exactly the same as the modal expects
+interface Unit {
+  name: string;
+  code: string;
+}
 
 export default function CreateUserPage() {
   // ─── State untuk semua field form ───────────────────────────────────────
@@ -28,61 +39,6 @@ export default function CreateUserPage() {
   const [organizationalUnit, setOrganizationalUnit] = useState("");
   const [type, setType] = useState("");
 
-  // Profile picture upload
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [dragging, setDragging] = useState(false);
-  const [previewSrc, setPreviewSrc] = useState<string | null>(null);
-
-  // ─── Pilihan dropdown (mock) ───────────────────────────────────────────
-  const designationOptions = [
-    "Manager",
-    "Supervisor",
-    "Staff",
-    "Intern",
-  ];
-  const roleOptions = ["Learner", "Teacher", "Admin", "Guest"];
-  const lmsRoleOptions = ["Learner", "Teacher", "Instructor", "Admin"];
-  const lineManagerOptions = ["Alice Johnson", "Bob Smith", "Charlie Lee"];
-  const orgUnitOptions = ["HR", "Engineering", "Sales", "Marketing"];
-
-  // ─── Helper untuk menambah/kurangi tag di multi‐select ────────────────
-  const toggleArrayItem = (arr: string[], setArr: (v: string[]) => void, value: string) => {
-    if (arr.includes(value)) {
-      setArr(arr.filter((x) => x !== value));
-    } else {
-      setArr([...arr, value]);
-    }
-  };
-
-  // ─── Fungsi upload file (drag & drop / browse) ────────────────────────
-  const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] ?? null;
-    if (file) previewImage(file);
-  };
-
-  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setDragging(false);
-    const file = e.dataTransfer.files?.[0] ?? null;
-    if (file) previewImage(file);
-  };
-
-  const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setDragging(true);
-  };
-
-  const handleDragLeave = () => {
-    setDragging(false);
-  };
-
-  const previewImage = (file: File) => {
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      setPreviewSrc(ev.target?.result as string);
-    };
-    reader.readAsDataURL(file);
-  };
 
   // ─── Saat tombol “Save Details” diklik ────────────────────────────────
   const handleSave = (e: React.FormEvent) => {
@@ -129,14 +85,80 @@ export default function CreateUserPage() {
     setIndirectLineManager("");
     setOrganizationalUnit("");
     setType("");
-    setPreviewSrc(null);
+  };
+
+  const optionsStatus = [
+    { value: "active", label: "Active" },
+    { value: "inactive", label: "Inactive" },
+    { value: "pending", label: "Pending" },
+  ];
+
+  const optionsDesignation = [
+    { value: "keyword", label: "Keyword" },
+    { value: "manager", label: "Manager" },
+    { value: "supervisor", label: "Supservisor" },
+    { value: "staff", label: "Staff" },
+    { value: "intern", label: "Intern" },
+  ];
+
+  const optionsRole = [
+    { value: "keyword", label: "Keyword" },
+    { value: "registered", label: "Registered" },
+    { value: "guest", label: "Guest" },
+  ];
+
+  const optionsLineManager = [
+    { value: "keyword", label: "Keyword" },
+    { value: "aj", label: "Alice Johnson" },
+    { value: "bs", label: "Bob Smith" },
+    { value: "cl", label: "Charlie Lee" },
+  ];
+
+  // 1) Track whether the OrganizationalUnitModal is showing
+  const [modalOpen, setModalOpen] = useState(false);
+
+  // 2) Track which unit (if any) has been selected
+  const [selectedUnit, setSelectedUnit] = useState<Unit | null>(null);
+
+
+  const unitList: Unit[] = [
+    { name: "Compliance & Legal", code: "OUID01" },
+    { name: "Customer Support", code: "OUID02" },
+    { name: "Cybersecurity", code: "OUID03" },
+    { name: "Human Capital (HC)", code: "OUID04" },
+    { name: "Information Technology", code: "OUID05" },
+    { name: "Internal Audit", code: "OUID06" },
+    { name: "Lending Operations", code: "OUID07" },
+    { name: "Product Management", code: "OUID08" },
+    { name: "Risk Management", code: "OUID09" },
+    { name: "Sales & Partnership", code: "OUID10" },
+  ];
+
+  const handleSelectChange = (value: string) => {
+    console.log("Selected value:", value);
+  };
+
+  // Called whenever the user picks “Select Unit” inside the modal.
+  const handleUnitSelect = (unit: Unit) => {
+    setSelectedUnit(unit);
+    setModalOpen(false);
+  };
+
+  // Called when user clicks “Cancel” in the modal (or clicks outside)
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
+
+  // Opens the modal
+  const openModal = () => {
+    setModalOpen(true);
   };
 
   return (
     <form onSubmit={handleSave} className="mx-auto space-y-6 bg-white border border-gray-200 rounded-md shadow-sm">
       {/* ─── Informational Header ──────────────────────────────────────── */}
       <div className="">
-        <div className="inline-flex items-center h-18 w-full gap-2 px-6 py-2 bg-red-100 text-red-700">
+        <div className="inline-flex items-center h-18 w-full gap-2 px-6 py-2 bg-gray-100 text-gray-700">
           <FontAwesomeIcon icon={faCircleInfo} className="w-5 h-5" />
           <div className="flex flex-col">
             <span className="font-medium">Information</span>
@@ -155,65 +177,46 @@ export default function CreateUserPage() {
         <div className="grid grid-cols-12 gap-4">
           {/* Row 1 */}
           <div className="col-span-12 sm:col-span-6 lg:col-span-3">
-            <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
-              First Name*
-            </label>
-            <Input
-              id="firstName"
-              type="text"
-              onChange={(e) => setFirstName(e.target.value)}
-            />
+            <div>
+              <Label>First Name<span className="text-red-500">*</span></Label>
+              <Input type="text" />
+            </div>
           </div>
 
           <div className="col-span-12 sm:col-span-6 lg:col-span-3">
-            <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
-              Last Name*
-            </label>
-            <input
-              id="lastName"
-              type="text"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              required
-              className="mt-1 block w-full border border-gray-300 rounded-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-            />
+            <div>
+              <Label>Last Name<span className="text-red-500">*</span></Label>
+              <Input type="text" />
+            </div>
           </div>
 
           <div className="col-span-12 sm:col-span-6 lg:col-span-3">
-            <label htmlFor="uniqueId" className="block text-sm font-medium text-gray-700">
-              Unique ID*
-            </label>
-            <input
-              id="uniqueId"
-              type="text"
-              placeholder="12310"
-              value={uniqueId}
-              onChange={(e) => setUniqueId(e.target.value)}
-              required
-              className="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-            />
+            <div>
+              <Label>Unique ID<span className="text-red-500">*</span></Label>
+              <Input type="text" placeholder="12310" disabled className="bg-gray-100 font-semibold" />
+            </div>
           </div>
 
           <div className="col-span-12 sm:col-span-6 lg:col-span-3">
-            <label htmlFor="status" className="block text-sm font-medium text-gray-700">
-              Status*
-            </label>
-            <select
-              id="status"
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
-              required
-              className="mt-1 block w-1/2 border border-gray-300 rounded-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-            >
-              <option>Active</option>
-              <option>Inactive</option>
-              <option>Pending</option>
-            </select>
+            <div className="w-1/2">
+              <Label>Status<span className="text-red-500">*</span></Label>
+              <div className="relative">
+                <Select
+                  options={optionsStatus}
+                  placeholder="Select an option"
+                  onChange={handleSelectChange}
+                  className="dark:bg-dark-900"
+                />
+                <span className="absolute text-gray-500 -translate-y-1/2 pointer-events-none right-3 top-1/2 dark:text-gray-400">
+                  <ChevronDownIcon />
+                </span>
+              </div>
+            </div>
           </div>
 
           {/* Row 2 */}
-          <div className="col-span-12 sm:col-span-6 lg:col-span-6">
-            <div className="w-1/2">
+          <div className="col-span-12 sm:col-span-6 lg:col-span-3">
+            <div className="">
               <DatePicker
                 id="date-of-joining"
                 label="Date of Joining"
@@ -226,47 +229,39 @@ export default function CreateUserPage() {
             </div>
           </div>
 
-          <div className="col-span-12 sm:col-span-6 lg:col-span-6">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-              Email*
-            </label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="mt-1 block w-3/4 border border-gray-300 rounded-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-            />
+          <div className="col-span-12 sm:col-span-6 lg:col-span-3">
+            {/* Isian */}
+          </div>
+
+          <div className="col-span-12 sm:col-span-6 lg:col-span-4">
+            <div>
+              <Label>Email<span className="text-red-500">*</span></Label>
+              <Input type="text" />
+            </div>
+          </div>
+
+          <div className="col-span-12 sm:col-span-6 lg:col-span-2">
+            {/* Isian */}
           </div>
 
           {/* Row 3 */}
           <div className="col-span-12 sm:col-span-6 lg:col-span-3">
-            <label htmlFor="username" className="block text-sm font-medium text-gray-700">
-              Username*
-            </label>
-            <input
-              id="username"
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-              className="mt-1 block w-full border border-gray-300 rounded-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-            />
+            <div>
+              <Label>Username<span className="text-red-500">*</span></Label>
+              <Input type="text" />
+            </div>
           </div>
 
           <div className="col-span-12 sm:col-span-6 lg:col-span-3">
             <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-              Password*
+              Password<span className="text-red-500">*</span>
             </label>
             <input
               id="password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              required
-              className="mt-1 block w-full border border-gray-300 rounded-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-
+              className="mt-2 h-11 w-full rounded-lg border appearance-none px-4 py-2.5 text-sm shadow-theme-xs placeholder:text-gray-400 focus:outline-hidden  dark:placeholder:text-white/30 bg-transparent text-gray-800 border-gray-300 focus:border-red-300 focus:ring-3 focus:ring-red-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:focus:border-brand-800"
             />
           </div>
         </div>
@@ -277,174 +272,134 @@ export default function CreateUserPage() {
         <legend className="px-2 text-lg font-semibold text-gray-700">
           Organization
         </legend>
-        <div className="grid grid-cols-12 gap-4">
+        <div className="grid grid-cols-12 gap-4 px-2">
           {/* 1) Designation */}
-          <div className="col-span-12 sm:col-span-6 lg:col-span-4">
-            <label htmlFor="designation" className="block text-sm font-medium text-gray-700">
-              Designation
-            </label>
-            <select
-              id="designation"
-              value={designation}
-              onChange={(e) => setDesignation(e.target.value)}
-              className="mt-1 block w-full border border-gray-300 rounded-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-            >
-              <option value="">-- Select --</option>
-              {designationOptions.map((opt) => (
-                <option key={opt} value={opt}>
-                  {opt}
-                </option>
-              ))}
-            </select>
+          <div className="col-span-12 sm:col-span-6 lg:col-span-3">
+            <div className="">
+              <Label>Designation</Label>
+              <div className="relative">
+                <Select
+                  options={optionsDesignation}
+                  placeholder="Keyword"
+                  onChange={handleSelectChange}
+                  className="dark:bg-dark-900"
+                />
+                <span className="absolute text-gray-500 -translate-y-1/2 pointer-events-none right-3 top-1/2 dark:text-gray-400">
+                  <ChevronDownIcon />
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-span-12 sm:col-span-6 lg:col-span-3">
+            {/* Isian */}
           </div>
 
           {/* 2) Role (multi‐select tags) */}
-          <div className="col-span-12 sm:col-span-6 lg:col-span-4">
-            <label className="block text-sm font-medium text-gray-700">Role*</label>
-            <div className="mt-1 flex flex-wrap gap-1">
-              {roleOptions.map((opt) => (
-                <button
-                  type="button"
-                  key={opt}
-                  onClick={() => toggleArrayItem(role, setRole, opt)}
-                  className={`px-2 py-1 border rounded-sm text-sm ${role.includes(opt)
-                    ? "bg-indigo-600 text-white border-indigo-600"
-                    : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
-                    }`}
-                >
-                  {opt}
-                </button>
-              ))}
+          <div className="col-span-12 sm:col-span-6 lg:col-span-3">
+            <div className="">
+              <Label>Role</Label>
+              <div className="relative">
+                <Select
+                  options={optionsRole}
+                  placeholder="Keyword"
+                  onChange={handleSelectChange}
+                  className="dark:bg-dark-900"
+                />
+                <span className="absolute text-gray-500 -translate-y-1/2 pointer-events-none right-3 top-1/2 dark:text-gray-400">
+                  <ChevronDownIcon />
+                </span>
+              </div>
             </div>
-            {role.length > 0 && (
-              <p className="mt-1 text-xs text-gray-500">
-                Selected: {role.join(", ")}
-              </p>
-            )}
           </div>
 
           {/* 3) LMS Role (multi‐select tags) */}
-          <div className="col-span-12 sm:col-span-6 lg:col-span-4">
-            <label className="block text-sm font-medium text-gray-700">LMS Role*</label>
-            <div className="mt-1 flex flex-wrap gap-1">
-              {lmsRoleOptions.map((opt) => (
-                <button
-                  type="button"
-                  key={opt}
-                  onClick={() => toggleArrayItem(lmsRoles, setLmsRoles, opt)}
-                  className={`px-2 py-1 border rounded-sm text-sm ${lmsRoles.includes(opt)
-                    ? "bg-indigo-600 text-white border-indigo-600"
-                    : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
-                    }`}
-                >
-                  {opt}
+          <div className="col-span-12 sm:col-span-6 lg:col-span-3">
+            <div className="relative">
+              <div className="flex flex-col">
+                <Label>LMS Role<span className="text-red-500">*</span></Label>
+                <button className="mt-1 h-9 w-25 border py-1 px-2 border-red-600 bg-red-600 rounded-xl">
+                  <div className="inline-flex items-center">
+                    <p className="items-center text-sm text-white">Learner</p>
+                    <FontAwesomeIcon icon={faXmark} size="sm" className="w-4 h-4 ml-2 text-white" />
+                  </div>
                 </button>
-              ))}
+              </div>
             </div>
-            {lmsRoles.length > 0 && (
-              <p className="mt-1 text-xs text-gray-500">
-                Selected: {lmsRoles.join(", ")}
-              </p>
-            )}
           </div>
 
           {/* 4) Line Manager */}
-          <div className="col-span-12 sm:col-span-6 lg:col-span-4">
-            <label htmlFor="lineManager" className="block text-sm font-medium text-gray-700">
-              Line Manager
-            </label>
-            <select
-              id="lineManager"
-              value={lineManager}
-              onChange={(e) => setLineManager(e.target.value)}
-              className="mt-1 block w-full border border-gray-300 rounded-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-            >
-              <option value="">-- Select --</option>
-              {lineManagerOptions.map((opt) => (
-                <option key={opt} value={opt}>
-                  {opt}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* 5) Indirect Line Manager */}
-          <div className="col-span-12 sm:col-span-6 lg:col-span-4">
-            <label
-              htmlFor="indirectLineManager"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Indirect Line Manager
-            </label>
-            <select
-              id="indirectLineManager"
-              value={indirectLineManager}
-              onChange={(e) => setIndirectLineManager(e.target.value)}
-              className="mt-1 block w-full border border-gray-300 rounded-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-            >
-              <option value="">-- Select --</option>
-              {lineManagerOptions.map((opt) => (
-                <option key={opt} value={opt}>
-                  {opt}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* 6) Organizational Unit */}
-          <div className="col-span-12 sm:col-span-6 lg:col-span-4">
-            <label htmlFor="organizationalUnit" className="block text-sm font-medium text-gray-700">
-              Organizational Unit*
-            </label>
-            <div className="relative">
-              <select
-                id="organizationalUnit"
-                value={organizationalUnit}
-                onChange={(e) => setOrganizationalUnit(e.target.value)}
-                className="mt-1 block w-full border border-gray-300 rounded-sm px-3 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-              >
-                <option value="">-- Select Unit --</option>
-                {orgUnitOptions.map((opt) => (
-                  <option key={opt} value={opt}>
-                    {opt}
-                  </option>
-                ))}
-              </select>
-              {/* External link icon on the right */}
-              <button
-                type="button"
-                className="absolute inset-y-0 right-0 pr-2 flex items-center text-gray-500 hover:text-gray-700"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M18 13v6a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2h6m6-1l-8 8m8 0V5m0 8H10"
-                  />
-                </svg>
-              </button>
+          <div className="col-span-12 sm:col-span-6 lg:col-span-3">
+            <div className="">
+              <Label>Line Manager</Label>
+              <div className="relative">
+                <Select
+                  options={optionsLineManager}
+                  placeholder="Keyword"
+                  onChange={handleSelectChange}
+                  className="dark:bg-dark-900"
+                />
+                <span className="absolute text-gray-500 -translate-y-1/2 pointer-events-none right-3 top-1/2 dark:text-gray-400">
+                  <ChevronDownIcon />
+                </span>
+              </div>
             </div>
           </div>
 
+          {/* 5) Indirect Line Manager */}
+          <div className="col-span-12 sm:col-span-6 lg:col-span-3">
+            <div className="">
+              <Label>Inline Manager</Label>
+              <div className="relative">
+                <Select
+                  options={optionsLineManager}
+                  placeholder="Keyword"
+                  onChange={handleSelectChange}
+                  className="dark:bg-dark-900"
+                />
+                <span className="absolute text-gray-500 -translate-y-1/2 pointer-events-none right-3 top-1/2 dark:text-gray-400">
+                  <ChevronDownIcon />
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* 6) Organizational Unit (button + modal) */}
+          <div className="col-span-12 sm:col-span-6 lg:col-span-3">
+            <Label>
+              Organizational Unit <span className="text-red-500">*</span>
+            </Label>
+            <button
+              onClick={openModal}
+              className="
+            mt-1 h-11 w-full rounded-lg border border-gray-300 
+            bg-transparent px-4 py-2.5 text-sm text-gray-800 shadow-theme-xs
+            focus:outline-none focus:border-red-300 focus:ring-3 focus:ring-red-500/10
+            dark:border-gray-700 dark:bg-gray-900 dark:text-white/90
+            dark:focus:border-brand-800
+          "
+            >
+              <div className="inline-flex w-full justify-between items-baseline gap-2">
+                {selectedUnit
+                  ? (
+                    // If a unit is already selected, show its name + code
+                    <p className="font-medium">{selectedUnit.name} ({selectedUnit.code})</p>
+                  )
+                  : (
+                    // Otherwise, show a placeholder
+                    <p className="font-medium text-gray-500">--Select Unit--</p>
+                  )}
+                <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+              </div>
+            </button>
+          </div>
+
           {/* 7) Type */}
-          <div className="col-span-12 sm:col-span-6 lg:col-span-4">
-            <label htmlFor="type" className="block text-sm font-medium text-gray-700">
-              Type
-            </label>
-            <input
-              id="type"
-              type="text"
-              value={type}
-              onChange={(e) => setType(e.target.value)}
-              className="mt-1 block w-full border border-gray-300 rounded-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-            />
+          <div className="col-span-12 sm:col-span-6 lg:col-span-2">
+            <div>
+              <Label>Type</Label>
+              <Input type="text" />
+            </div>
           </div>
         </div>
       </fieldset>
@@ -462,45 +417,7 @@ export default function CreateUserPage() {
         <div className="grid grid-cols-12 gap-20 p-4">
           {/* 8) Profile Picture Upload (drag & drop) */}
           <div className="col-span-12 sm:col-span-6 lg:col-span-4">
-            <div
-              className={`mt-1 relative flex items-center justify-center h-62 border-2 border-dashed rounded-md ${dragging ? "border-indigo-400 bg-indigo-50" : "border-gray-300 bg-white"
-                }`}
-              onDrop={handleDrop}
-              onDragOver={handleDragOver}
-              onDragLeave={handleDragLeave}
-            >
-              {previewSrc ? (
-                <Image
-                  src={previewSrc}
-                  alt="Preview"
-                  fill
-                  style={{ objectFit: "cover" }}
-                  className="rounded-md"
-                />
-              ) : (
-                <div className="flex flex-col items-center text-gray-400">
-                  <FontAwesomeIcon icon={faCloudUploadAlt} size="5x" className="w-16 h-16" />
-                  <p className="mt-1 text-2xl font-bold">
-                    Drag and drop&nbsp;
-                  </p>
-                  <button
-                    type="button"
-                    onClick={() => fileInputRef.current?.click()}
-                    className="text-indigo-600 font-normal text-sm hover:text-indigo-800"
-                  >
-                    <span className="text-sm font-normal no-underline text-gray-400">or </span><span className="underline">Browse File</span>
-                  </button>
-                  <p className="mt-1 text-xs text-gray-500">Accepts: JPG, PNG, GIF</p>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    ref={fileInputRef}
-                    onChange={handleFileSelect}
-                    className="hidden"
-                  />
-                </div>
-              )}
-            </div>
+            <DropzoneComponent />
           </div>
 
           {/* 9) Preview Icon (to the right of the upload box) */}
@@ -531,25 +448,29 @@ export default function CreateUserPage() {
         </div>
       </fieldset>
 
-
-
-
       {/* ─── Tombol Save & Cancel ───────────────────────────────────────────── */}
-      <div className="flex justify-end gap-4">
+      <div className="flex justify-start items-center gap-4 px-6 py-2 bg-gray-100 h-18 w-full">
+        <Link
+          href="/teacher/users/view/table1"
+          className="h-10 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+        >
+          Save Details
+        </Link>
         <button
           type="button"
           onClick={handleCancel}
-          className="px-4 py-2 border border-gray-300 rounded-sm bg-white text-gray-700 hover:bg-gray-50"
+          className="h-10 px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 hover:bg-gray-50"
         >
           Cancel
         </button>
-        <button
-          type="submit"
-          className="px-4 py-2 bg-indigo-600 text-white rounded-sm hover:bg-indigo-700"
-        >
-          Save Details
-        </button>
       </div>
+      {/* OrganizationalUnitModal appears when modalOpen===true */}
+      <OrganizationalUnitModal
+        isOpen={modalOpen}
+        onClose={handleModalClose}
+        onSelect={handleUnitSelect}
+        units={unitList}
+      />
     </form>
   );
 }
