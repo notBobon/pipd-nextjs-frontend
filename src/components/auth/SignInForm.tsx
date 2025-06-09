@@ -22,7 +22,7 @@ export default function SignInForm() {
     if (username === "userlearner" && password === "prototypetest21") {
       router.push("/"); // Ganti ke /learner
     } else if (username === "userteacher" && password === "prototypetest03") {
-      router.push("/"); // Ganti ke /teacher
+      router.push("/teacher"); // Ganti ke /teacher
     } else {
       setError("User credentials not valid!");
     }
